@@ -1,16 +1,60 @@
-﻿# Unreal
+# Visual Studio 2015/2017/2019/2022 user specific files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# Unreal Engine
 Binaries/
 DerivedDataCache/
 Intermediate/
 Saved/
-
-# VS / Rider
-.vs/
-.idea/
 *.sln
-*.VC.db
-*.opendb
+*.opensdf
+*.sdf
+*.suo
+*.xcodeproj
+*.xcworkspace
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcworkspace/contents.xcworkspacedata
+**/DerivedDataCache/
+**/Intermediate/
+**/Saved/
+**/Binaries/
+**/Backup/
+*.uproject
+*.uplugin
+*.upluginmanifest
+UpgradeLog.htm
 
-# OS
+# Visual Studio Code
+.vscode/
+
+# Rider
+.idea/
+
+# macOS
 .DS_Store
+
+# Windows
 Thumbs.db
+ehthumbs.db
+Desktop.ini
+
