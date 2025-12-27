@@ -39,8 +39,9 @@ Saved/
 **/Saved/
 **/Binaries/
 **/Backup/
-*.uproject
-*.uplugin
+# Note: .uproject and .uplugin files SHOULD be committed
+# *.uproject
+# *.uplugin
 *.upluginmanifest
 UpgradeLog.htm
 
@@ -57,4 +58,5 @@ UpgradeLog.htm
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
 
