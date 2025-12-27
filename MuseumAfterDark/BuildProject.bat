@@ -18,6 +18,17 @@ if not exist "MuseumAfterDark.uproject" (
 REM Fix read-only permissions (common issue when extracting from zip)
 echo Fixing file permissions (removing read-only attributes)...
 attrib -R /S /D *.* >nul 2>&1
+
+REM Delete Intermediate\ProjectFiles folder if it exists (often has read-only files from zip)
+if exist "Intermediate\ProjectFiles" (
+    echo Cleaning up Intermediate\ProjectFiles folder...
+    rd /s /q "Intermediate\ProjectFiles" >nul 2>&1
+)
+
+REM Also fix permissions on Intermediate folder specifically
+if exist "Intermediate" (
+    attrib -R /S /D Intermediate\*.* >nul 2>&1
+)
 echo.
 
 REM Step 1: Find Unreal Engine installation
