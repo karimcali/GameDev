@@ -19,16 +19,19 @@ REM Fix read-only permissions (common issue when extracting from zip)
 echo Fixing file permissions (removing read-only attributes)...
 attrib -R /S /D *.* >nul 2>&1
 
-REM Delete Intermediate\ProjectFiles folder if it exists (often has read-only files from zip)
-if exist "Intermediate\ProjectFiles" (
-    echo Cleaning up Intermediate\ProjectFiles folder...
-    rd /s /q "Intermediate\ProjectFiles" >nul 2>&1
+REM Delete entire Intermediate folder if it exists (often has read-only files from zip)
+REM This folder can be safely regenerated
+if exist "Intermediate" (
+    echo Cleaning up Intermediate folder (will be regenerated)...
+    rd /s /q "Intermediate" >nul 2>&1
 )
 
-REM Also fix permissions on Intermediate folder specifically
-if exist "Intermediate" (
-    attrib -R /S /D Intermediate\*.* >nul 2>&1
-)
+REM Reset folder permissions using icacls (more thorough than attrib)
+echo Resetting folder permissions...
+icacls . /reset /T /C /L >nul 2>&1
+
+REM Also ensure current directory is writable
+attrib -R . >nul 2>&1
 echo.
 
 REM Step 1: Find Unreal Engine installation
@@ -66,8 +69,9 @@ REM Step 2: Generate Visual Studio project files
 echo Step 2: Generating Visual Studio project files...
 echo.
 
-REM Try UnrealVersionSelector first
+REM Try UnrealVersionSelector first (most reliable, handles permissions better)
 if exist "%ProgramFiles%\Epic Games\Launcher\Engine\Binaries\Win64\UnrealVersionSelector.exe" (
+    echo Using UnrealVersionSelector...
     "%ProgramFiles%\Epic Games\Launcher\Engine\Binaries\Win64\UnrealVersionSelector.exe" /projectfiles "%CD%\MuseumAfterDark.uproject"
     if errorlevel 1 (
         echo WARNING: UnrealVersionSelector failed, trying alternative method...
@@ -79,6 +83,11 @@ if exist "%ProgramFiles%\Epic Games\Launcher\Engine\Binaries\Win64\UnrealVersion
 
 REM Alternative: Use UnrealBuildTool directly to generate project files
 echo Using UnrealBuildTool to generate project files...
+REM Create Intermediate folder first to avoid permission issues
+if not exist "Intermediate" mkdir "Intermediate"
+if not exist "Intermediate\ProjectFiles" mkdir "Intermediate\ProjectFiles"
+attrib -R "Intermediate" /S /D >nul 2>&1
+
 "%UE_PATH%\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.exe" -projectfiles -project="%CD%\MuseumAfterDark.uproject" -game -rocket -progress
 
 if errorlevel 1 (
