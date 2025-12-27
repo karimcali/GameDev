@@ -66,6 +66,15 @@ This means the project wasn't built. The `Binaries/` folder is empty. You need t
 - Run `BuildProject.bat` to build everything
 - OR build from Visual Studio (see Option 2 above)
 
+### "The file is probably read-only" or "Error while trying to write file"
+
+This happens when files are extracted from a zip file - Windows marks them as read-only.
+
+**Solution:**
+- Run `FixPermissions.bat` to remove read-only attributes
+- OR manually: Right-click the `MuseumAfterDark` folder → Properties → Uncheck "Read-only" → Apply to all subfolders
+- The `BuildProject.bat` script now automatically fixes this, but if you still get the error, run `FixPermissions.bat` first
+
 ### "Cannot find Unreal Engine installation"
 
 - Make sure Unreal Engine 5.6 is installed via Epic Games Launcher

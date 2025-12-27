@@ -15,6 +15,11 @@ if not exist "MuseumAfterDark.uproject" (
     exit /b 1
 )
 
+REM Fix read-only permissions (common issue when extracting from zip)
+echo Fixing file permissions (removing read-only attributes)...
+attrib -R /S /D *.* >nul 2>&1
+echo.
+
 REM Step 1: Find Unreal Engine installation
 echo Step 1: Finding Unreal Engine installation...
 set "UE_PATH="
